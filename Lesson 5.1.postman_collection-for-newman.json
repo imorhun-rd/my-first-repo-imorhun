@@ -1,0 +1,529 @@
+{
+	"info": {
+		"_postman_id": "230ac08a-56bf-4ac6-ae76-02c79522d926",
+		"name": "Lesson 5.1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26907224"
+	},
+	"item": [
+		{
+			"name": "Get List",
+			"item": [
+				{
+					"name": "Get List - schema",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const Ajv = require('ajv');",
+									"const ajv = new Ajv();",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"id\": { \"type\": \"string\" },",
+									"        \"name\": { \"type\": \"string\" },",
+									"        \"deleted\": { \"type\": \"boolean\" },",
+									"        \"orderindex\": { \"type\": \"number\" },",
+									"        \"content\": { \"type\": \"string\" },",
+									"        \"status\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"                \"status\": { \"type\": \"string\" },",
+									"                \"color\": { \"type\": \"string\" },",
+									"                \"hide_label\": { \"type\": \"boolean\" }",
+									"            },",
+									"            \"required\": [\"status\", \"color\", \"hide_label\"]",
+									"        },",
+									"        \"priority\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"                \"priority\": { \"type\": \"string\" },",
+									"                \"color\": { \"type\": \"string\" }",
+									"            },",
+									"            \"required\": [\"priority\", \"color\"]",
+									"        },",
+									"        \"assignee\": { \"type\": [\"object\", \"null\"] },",
+									"        \"due_date\": { \"type\": \"string\" },",
+									"        \"start_date\": { \"type\": [\"string\", \"null\"] },",
+									"        \"folder\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"                \"id\": { \"type\": \"string\" },",
+									"                \"name\": { \"type\": \"string\" },",
+									"                \"hidden\": { \"type\": \"boolean\" },",
+									"                \"access\": { \"type\": \"boolean\" }",
+									"            },",
+									"            \"required\": [\"id\", \"name\", \"hidden\", \"access\"]",
+									"        },",
+									"        \"space\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"                \"id\": { \"type\": \"string\" },",
+									"                \"name\": { \"type\": \"string\" },",
+									"                \"access\": { \"type\": \"boolean\" }",
+									"            },",
+									"            \"required\": [\"id\", \"name\", \"access\"]",
+									"        },",
+									"        \"inbound_address\": { \"type\": \"string\" },",
+									"        \"archived\": { \"type\": \"boolean\" },",
+									"        \"override_statuses\": { \"type\": \"boolean\" },",
+									"        \"statuses\": {",
+									"            \"type\": \"array\",",
+									"            \"items\": {",
+									"                \"type\": \"object\",",
+									"                \"properties\": {",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"status\": { \"type\": \"string\" },",
+									"                    \"orderindex\": { \"type\": \"number\" },",
+									"                    \"color\": { \"type\": \"string\" },",
+									"                    \"type\": { \"type\": \"string\" },",
+									"                    \"status_group\": { \"type\": \"string\" }",
+									"                },",
+									"                \"required\": [\"id\", \"status\", \"orderindex\", \"color\", \"type\", \"status_group\"]",
+									"            }",
+									"        },",
+									"        \"permission_level\": { \"type\": \"string\" }",
+									"    },",
+									"    \"required\": [\"id\", \"name\", \"deleted\", \"orderindex\", \"content\", \"status\", \"priority\", \"due_date\", \"folder\", \"space\", \"inbound_address\", \"archived\", \"override_statuses\", \"statuses\", \"permission_level\"]",
+									"};",
+									"",
+									"const validate = ajv.compile(schema);",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Schema is valid\", function () {",
+									"    const valid = validate(response);",
+									"    pm.expect(valid, JSON.stringify(validate.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}"
+							},
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/v2/list/{{list_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"list",
+								"{{list_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create List",
+			"item": [
+				{
+					"name": "Create List - schema",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const Ajv = require('ajv');",
+									"const ajv = new Ajv();",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"id\": { \"type\": \"string\" },",
+									"        \"name\": { \"type\": \"string\" },",
+									"        \"deleted\": { \"type\": \"boolean\" },",
+									"        \"orderindex\": { \"type\": \"number\" },",
+									"        \"content\": { \"type\": \"string\" },",
+									"        \"status\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"                \"status\": { \"type\": \"string\" },",
+									"                \"color\": { \"type\": \"string\" },",
+									"                \"hide_label\": { \"type\": \"boolean\" }",
+									"            },",
+									"            \"required\": [\"status\", \"color\", \"hide_label\"]",
+									"        },",
+									"        \"priority\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"                \"priority\": { \"type\": \"string\" },",
+									"                \"color\": { \"type\": \"string\" }",
+									"            },",
+									"            \"required\": [\"priority\", \"color\"]",
+									"        },",
+									"        \"assignee\": { \"type\": [\"object\", \"null\"] },",
+									"        \"due_date\": { \"type\": \"string\" },",
+									"        \"start_date\": { \"type\": [\"string\", \"null\"] },",
+									"        \"folder\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"                \"id\": { \"type\": \"string\" },",
+									"                \"name\": { \"type\": \"string\" },",
+									"                \"hidden\": { \"type\": \"boolean\" },",
+									"                \"access\": { \"type\": \"boolean\" }",
+									"            },",
+									"            \"required\": [\"id\", \"name\", \"hidden\", \"access\"]",
+									"        },",
+									"        \"space\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"                \"id\": { \"type\": \"string\" },",
+									"                \"name\": { \"type\": \"string\" },",
+									"                \"access\": { \"type\": \"boolean\" }",
+									"            },",
+									"            \"required\": [\"id\", \"name\", \"access\"]",
+									"        },",
+									"        \"inbound_address\": { \"type\": \"string\" },",
+									"        \"archived\": { \"type\": \"boolean\" },",
+									"        \"override_statuses\": { \"type\": \"boolean\" },",
+									"        \"statuses\": {",
+									"            \"type\": \"array\",",
+									"            \"items\": {",
+									"                \"type\": \"object\",",
+									"                \"properties\": {",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"status\": { \"type\": \"string\" },",
+									"                    \"orderindex\": { \"type\": \"number\" },",
+									"                    \"color\": { \"type\": \"string\" },",
+									"                    \"type\": { \"type\": \"string\" },",
+									"                    \"status_group\": { \"type\": \"string\" }",
+									"                },",
+									"                \"required\": [\"id\", \"status\", \"orderindex\", \"color\", \"type\", \"status_group\"]",
+									"            }",
+									"        },",
+									"        \"permission_level\": { \"type\": \"string\" }",
+									"    },",
+									"    \"required\": [\"id\", \"name\", \"deleted\", \"orderindex\", \"content\", \"status\", \"priority\", \"due_date\", \"folder\", \"space\", \"inbound_address\", \"archived\", \"override_statuses\", \"statuses\", \"permission_level\"]",
+									"};",
+									"",
+									"const validate = ajv.compile(schema);",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Schema is valid\", function () {",
+									"    const valid = validate(response);",
+									"    pm.expect(valid, JSON.stringify(validate.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}"
+							},
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"name\": \"{{$randomProductName}}\",\n  \"content\": \"{{$randomLoremText}}\",\n  \"priority\": 1,\n  \"status\": \"red\",\n  \"due_date_time\": true,\n  \"due_date\": 1567780450202\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v2/folder/{{folder_id}}/list",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"folder",
+								"{{folder_id}}",
+								"list"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Lists",
+			"item": [
+				{
+					"name": "Get Lists - Arrray",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"jsonData.lists.forEach(item =>{",
+									"    console.log(`name is ${item.name} and id is ${item.id}`) // Access the id and name property of each list item",
+									"    console.log(item.id) // Access the id property of each list item",
+									"    console.log(item.name) // Access the name property of each list item",
+									"}) ",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							},
+							{
+								"key": "accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/v2/folder/{{folder_id}}/list",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"folder",
+								"{{folder_id}}",
+								"list"
+							],
+							"query": [
+								{
+									"key": "archived",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "archived",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List - prescript / afterscript",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"(async () => {",
+									"    console.log(\"Post-response logs - DELETE\")",
+									"try {",
+									"    var url = pm.environment.get(\"url\");",
+									"    var list_id = pm.environment.get(\"list_id\");",
+									"         console.log(`list_id is ${list_id}`)",
+									"    var Authorization = pm.environment.get(\"Authorization\");",
+									"    ",
+									"    const response = await pm.sendRequest({",
+									"        url: `${url}/api/v2/list/${list_id}`,",
+									"        method: \"DELETE\",",
+									"        header: {",
+									"             \"Authorization\":`${Authorization}`,",
+									"             \"Content-type\": \"application/json\"",
+									"        },",
+									"    });",
+									"",
+									"    console.log(response.json());",
+									"} catch (err) {",
+									"    console.error(err);",
+									"}",
+									"}) ()",
+									"",
+									"",
+									"(async () => { ",
+									"console.log(\"Post-response logs - Recheck deleted list\")",
+									"try {",
+									"    var url = pm.environment.get(\"url\");",
+									"    var list_id = pm.environment.get(\"list_id\");",
+									"        console.log(`list_id is ${list_id}`)",
+									"    var Authorization = pm.environment.get(\"Authorization\");",
+									"    const response = await pm.sendRequest({",
+									"        url: `${url}/api/v2/list/${list_id}`,",
+									"        method: \"GET\",",
+									"        header: {",
+									"             \"Authorization\":`${Authorization}`,",
+									"             \"Content-type\": \"application/json\"",
+									"        },",
+									"    });",
+									"",
+									"",
+									"",
+									"    console.log(response.json());",
+									"} catch (err) {",
+									"    console.error(err);",
+									"}",
+									"}) ()"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"(async () => { ",
+									"console.log(\"Pre-request logs\")",
+									"    var list_name = pm.variables.replaceIn(\"{{$randomProductName}}\")",
+									"        pm.environment.set(\"list_name\", list_name);",
+									"            console.log(`random list_name is ${list_name}`)",
+									"    var list_content = pm.variables.replaceIn(\"{{$randomLoremText}}\")",
+									"        pm.environment.set(\"list_content\", list_content);",
+									"            console.log(`random list_content is ${list_content}`)",
+									"",
+									"",
+									"try {",
+									"    var url = pm.environment.get(\"url\");",
+									"    var folder_id = pm.environment.get(\"folder_id\");",
+									"         console.log(`folder_id is ${folder_id}`)",
+									"    var Authorization = pm.environment.get(\"Authorization\");",
+									"    var list_name = pm.environment.get(\"list_name\");",
+									"    var list_content = pm.environment.get(\"list_content\");",
+									"",
+									"    const response = await pm.sendRequest({",
+									"        url: `${url}/api/v2/folder/${folder_id}/list`,",
+									"        method: \"POST\",",
+									"        header:{",
+									"             \"Authorization\":`${Authorization}`,",
+									"             \"Content-type\": \"application/json\"",
+									"        },",
+									"        body: {",
+									"            mode: \"raw\",",
+									"            raw: JSON.stringify({",
+									"            \"name\": `${list_name}`,",
+									"            \"content\": `${list_content}`,",
+									"            \"priority\": 3,",
+									"            \"status\": \"blue\",",
+									"            \"due_date_time\": true,",
+									"            \"due_date\": 1567780450202",
+									"        })",
+									"        }",
+									"    });",
+									"",
+									"var id = response.json().id; ",
+									"     pm.environment.set(\"list_id\", id);",
+									"         console.log(`new list_id is ${id}`)",
+									"   ",
+									"    console.log(response.json());",
+									"",
+									"} catch (err) {",
+									"    console.error(err);",
+									"}",
+									"}) ()"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}"
+							},
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/v2/list/{{list_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"list",
+								"{{list_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Authorization",
+			"value": "pk_188594880_V1Q4PJAWTUG3583HP0ZN5NFC7ZG31SYE",
+			"type": "string"
+		}
+	]
+}
